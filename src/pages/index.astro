@@ -1,0 +1,152 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE, MAIN_SITE_URL, CALENDLY_URL } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<h1>AI Automation &amp; Content Marketing Insights</h1>
+				<p>
+					Practical strategies for real estate agents and attorneys who want more clients
+					without more work. From <a href={MAIN_SITE_URL}>RNG Media</a>.
+				</p>
+			</section>
+			<section class="posts">
+				<ul>
+					{posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.id}/`}>
+								<h2>{post.data.title}</h2>
+								<p class="date"><FormattedDate date={post.data.pubDate} /></p>
+								<p class="desc">{post.data.description}</p>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+			<section class="cta">
+				<h2>Ready to automate your pipeline?</h2>
+				<p>
+					RNG Media builds AI-powered lead systems and branded content for
+					real estate agents and attorneys.
+				</p>
+				<a href={CALENDLY_URL} class="cta-btn" target="_blank" rel="noopener noreferrer">
+					Book a Free Strategy Call
+				</a>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main {
+		max-width: 960px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+	.hero {
+		padding: 3rem 0 2rem;
+		border-bottom: 1px solid rgb(var(--gray-light));
+		margin-bottom: 2rem;
+	}
+	.hero h1 {
+		font-family: 'Barlow Condensed', sans-serif;
+		font-size: 2.5rem;
+		font-weight: 800;
+		line-height: 1.1;
+		margin-bottom: 0.75rem;
+	}
+	.hero p {
+		font-size: 1.125rem;
+		color: rgb(var(--gray));
+		line-height: 1.65;
+		max-width: 600px;
+	}
+	.hero a {
+		color: oklch(50.5% 0.20 264);
+	}
+	.posts ul {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+	.posts li a {
+		display: block;
+		padding: 1.5rem;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 12px;
+		text-decoration: none;
+		color: inherit;
+		transition: box-shadow 0.2s ease, border-color 0.2s ease;
+	}
+	.posts li a:hover {
+		box-shadow: 0 8px 24px rgba(var(--black), 0.06);
+		border-color: oklch(80% 0.007 264);
+	}
+	.posts h2 {
+		font-size: 1.25rem;
+		font-weight: 700;
+		margin-bottom: 0.25rem;
+		line-height: 1.3;
+	}
+	.posts .date {
+		font-size: 0.8125rem;
+		color: rgb(var(--gray));
+		margin-bottom: 0.5rem;
+	}
+	.posts .desc {
+		font-size: 0.9375rem;
+		color: rgb(var(--gray));
+		line-height: 1.65;
+	}
+	.cta {
+		text-align: center;
+		padding: 3rem 0;
+		margin-top: 2rem;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.cta h2 {
+		font-family: 'Barlow Condensed', sans-serif;
+		font-size: 1.75rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+	.cta p {
+		font-size: 0.9375rem;
+		color: rgb(var(--gray));
+		margin-bottom: 1.25rem;
+		line-height: 1.65;
+	}
+	.cta-btn {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		background: oklch(50.5% 0.20 264);
+		color: oklch(99% 0.003 264);
+		border-radius: 6px;
+		font-weight: 600;
+		font-size: 0.9375rem;
+		text-decoration: none;
+		transition: background 0.18s ease;
+	}
+	.cta-btn:hover {
+		background: oklch(45.5% 0.20 264);
+	}
+</style>

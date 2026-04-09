@@ -1,0 +1,59 @@
+---
+import { MAIN_SITE_URL } from '../consts';
+
+interface Props {
+	title?: string;
+	description?: string;
+	pubDate?: Date;
+	type?: 'article' | 'website';
+}
+
+const { title, description, pubDate, type = 'website' } = Astro.props;
+
+const localBusiness = {
+	'@context': 'https://schema.org',
+	'@type': 'ProfessionalService',
+	name: 'RNG Media',
+	description: 'AI-powered lead systems and content engines for real estate agents and attorneys.',
+	url: MAIN_SITE_URL,
+	telephone: '+1-910-593-2861',
+	email: 'mitch@rngmedia.com',
+	address: {
+		'@type': 'PostalAddress',
+		addressLocality: 'Lumberton',
+		addressRegion: 'NC',
+		addressCountry: 'US',
+	},
+	areaServed: [
+		{ '@type': 'State', name: 'North Carolina' },
+		{ '@type': 'State', name: 'South Carolina' },
+	],
+	founder: {
+		'@type': 'Person',
+		name: 'Mitch Carter',
+	},
+	serviceType: ['AI Lead Generation', 'Content Marketing', 'Marketing Automation'],
+	priceRange: '$500-$2200/mo',
+};
+
+const article = type === 'article' && title ? {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: title,
+	description,
+	datePublished: pubDate?.toISOString(),
+	author: {
+		'@type': 'Person',
+		name: 'Mitch Carter',
+		url: MAIN_SITE_URL,
+	},
+	publisher: {
+		'@type': 'Organization',
+		name: 'RNG Media',
+		url: MAIN_SITE_URL,
+	},
+} : null;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
+{article && <script type="application/ld+json" set:html={JSON.stringify(article)} />}

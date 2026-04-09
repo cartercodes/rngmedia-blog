@@ -1,0 +1,28 @@
+---
+import { MAIN_SITE_URL } from '../consts';
+const today = new Date();
+---
+
+<footer>
+	&copy; {today.getFullYear()} <a href={MAIN_SITE_URL}>RNG Media</a>. All rights reserved.
+	<p class="footer-tagline">AI automation and content for real estate agents and attorneys.</p>
+</footer>
+<style>
+	footer {
+		padding: 2em 1em 4em 1em;
+		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		color: rgb(var(--gray));
+		text-align: center;
+	}
+	footer a {
+		color: rgb(var(--gray-dark));
+		text-decoration: none;
+	}
+	footer a:hover {
+		text-decoration: underline;
+	}
+	.footer-tagline {
+		margin-top: 0.5em;
+		font-size: 0.875rem;
+	}
+</style>
